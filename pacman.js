@@ -1,6 +1,7 @@
 // Setup initial game stats
 var score = 0;
 var lives = 2;
+var powerPellets = 4;
 
 
 // Define your ghosts here
@@ -28,7 +29,7 @@ var pinky = {
   edible: false
 }
 
-var blinky = {
+var clyde = {
   menu_option: '4',
   name: 'Clyde',
   colour: 'Orange',
@@ -38,7 +39,24 @@ var blinky = {
 
 
 // replace this comment with your four ghosts setup as objects
+var ghosts = [inky, blinky, pinky, clyde]
 
+// Eating an inedible ghost
+function eatGhost(ghost) {
+  if (ghost.edible === false) {
+    lives -= 1;
+    console.log('\nPac-Man is killed by ' + ghost.name + '!');
+  }
+  lifeBelowZero();
+}
+
+// Function if life is below 0
+function lifeBelowZero() {
+  if (lives <= 0) {
+    process.exit();
+    break;
+  }
+}
 
 // Draw the screen functionality
 function drawScreen() {
@@ -55,12 +73,22 @@ function clearScreen() {
 }
 
 function displayStats() {
-  console.log('Score: ' + score + '     Lives: ' + lives);
+  if (powerPellets > 0) {
+    console.log('Score: ' + score + '     Lives: ' + lives + '\nPower Pellets: ' + powerPellets);
+  } else {
+    console.log('Score: ' + score + '     Lives: ' + lives + '\nNo Power Pellets left');
+  }
 }
 
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
+
   console.log('(d) Eat Dot');
+  console.log('(p) Eat Power-Pellet');
+  console.log('(1) Inky');
+  console.log('(2) Blinky');
+  console.log('(2) Pinky');
+  console.log('(2) Clyde');
   console.log('(q) Quit');
 }
 
@@ -76,6 +104,16 @@ function eatDot() {
   score += 10;
 }
 
+function eatPowerPellet() {
+  console.log('\nYum');
+  score += 50;
+  powerPellets -= 1;
+
+  for (var i = 0; i < ghosts.length; i++) {
+    ghost[i].edible = true;
+  }
+}
+
 
 // Process Player's Input
 function processInput(key) {
@@ -87,6 +125,34 @@ function processInput(key) {
     case 'd':
       eatDot();
       break;
+    case 'p':
+      if (powerPellets > 0) {
+        eatPowerPellet();
+      } else {
+        console.log('\nNo more Power Pellets!');
+      }
+      break;
+
+    case '1':
+      eatGhost(ghost[0]);
+      lifeBelowZero();
+      break;
+
+    case '2':
+      eatGhost(ghost[1]);
+      lifeBelowZero();
+      break;
+
+    case '3':
+      eatGhost(ghost[2]);
+      lifeBelowZero();
+      break;
+
+    case '4':
+      eatGhost(ghost[3]);
+      lifeBelowZero();
+      break;
+
     default:
       console.log('\nInvalid Command!');
   }
