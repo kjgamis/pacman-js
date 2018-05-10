@@ -41,13 +41,6 @@ var clyde = {
 // replace this comment with your four ghosts setup as objects
 var ghosts = [inky, blinky, pinky, clyde]
 
-// Eating an inedible ghost
-function eatGhost(ghost) {
-  if (ghost.edible === false) {
-    lives -= 1;
-  }
-  lifeBelowZero();
-}
 
 // Draw the screen functionality
 function drawScreen() {
@@ -76,10 +69,31 @@ function displayMenu() {
 
   console.log('(d) Eat Dot');
   console.log('(p) Eat Power-Pellet');
-  console.log('(1) Inky');
-  console.log('(2) Blinky');
-  console.log('(3) Pinky');
-  console.log('(4) Clyde');
+
+  if (ghosts[0].edible === true) {
+    console.log('(1) Inky (edible)');
+  } else {
+    console.log('(1) Inky (inedible)');
+  }
+
+  if (ghosts[1].edible === true) {
+    console.log('(2) Blinky (edible)');
+  } else {
+    console.log('(2) Blinky (inedible)');
+  }
+
+  if (ghosts[2].edible === true) {
+     console.log('(3) Pinky (edible)');
+  } else {
+    console.log('(3) Pinky (inedible)');
+  }
+
+  if (ghosts[3].edible === true) {
+    console.log('(4) Clyde (edible)');
+  } else {
+    console.log('(4) Clyde (inedible)');
+  }
+
   console.log('(q) Quit');
 }
 
@@ -103,6 +117,21 @@ function eatPowerPellet() {
   for (var i = 0; i < ghosts.length; i++) {
     ghosts[i].edible = true;
   }
+}
+
+// Eating an inedible ghost
+function eatGhost(ghost) {
+  if (ghost.edible === false) {
+    lives -= 1;
+  }
+  lifeBelowZero();
+}
+
+// Make ghost inedible
+function makeGhostsInedible() {
+  ghosts.forEach(function(ghost) {
+    ghost.edible = false;
+  });
 }
 
 // Function if life is below 0
@@ -138,7 +167,8 @@ function processInput(key) {
 
       if (ghosts[0].edible === true) {
         score += 200;
-        ghosts[0].edible = false;
+        // ghosts[0].edible = false;
+        makeGhostsInedible();
       }
       break;
 
@@ -148,7 +178,8 @@ function processInput(key) {
 
       if (ghosts[1].edible === true) {
         score += 200;
-        ghosts[1].edible = false;
+        // ghosts[1].edible = false;
+        makeGhostsInedible();
       }
       break;
 
@@ -158,7 +189,8 @@ function processInput(key) {
 
       if (ghosts[2].edible === true) {
         score += 200;
-        ghosts[2].edible = false;
+        // ghosts[2].edible = false;
+        makeGhostsInedible();
       }
       break;
 
@@ -168,7 +200,8 @@ function processInput(key) {
 
       if (ghosts[3].edible === true) {
         score += 200;
-        ghosts[3].edible = false;
+        // ghosts[3].edible = false;
+        makeGhostsInedible();
       }
       break;
 
