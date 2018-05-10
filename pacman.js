@@ -45,17 +45,8 @@ var ghosts = [inky, blinky, pinky, clyde]
 function eatGhost(ghost) {
   if (ghost.edible === false) {
     lives -= 1;
-    console.log('\nPac-Man is killed by ' + ghost.name + '!');
   }
   lifeBelowZero();
-}
-
-// Function if life is below 0
-function lifeBelowZero() {
-  if (lives <= 0) {
-    process.exit();
-    break;
-  }
 }
 
 // Draw the screen functionality
@@ -87,8 +78,8 @@ function displayMenu() {
   console.log('(p) Eat Power-Pellet');
   console.log('(1) Inky');
   console.log('(2) Blinky');
-  console.log('(2) Pinky');
-  console.log('(2) Clyde');
+  console.log('(3) Pinky');
+  console.log('(4) Clyde');
   console.log('(q) Quit');
 }
 
@@ -110,7 +101,15 @@ function eatPowerPellet() {
   powerPellets -= 1;
 
   for (var i = 0; i < ghosts.length; i++) {
-    ghost[i].edible = true;
+    ghosts[i].edible = true;
+  }
+}
+
+// Function if life is below 0
+function lifeBelowZero() {
+  if (lives <= 0) {
+    console.log('\n0 lives left!');
+    process.exit();
   }
 }
 
@@ -134,23 +133,43 @@ function processInput(key) {
       break;
 
     case '1':
-      eatGhost(ghost[0]);
+      eatGhost(ghosts[0]);
       lifeBelowZero();
+
+      if (ghosts[0].edible === true) {
+        score += 200;
+        ghosts[0].edible = false;
+      }
       break;
 
     case '2':
-      eatGhost(ghost[1]);
+      eatGhost(ghosts[1]);
       lifeBelowZero();
+
+      if (ghosts[1].edible === true) {
+        score += 200;
+        ghosts[1].edible = false;
+      }
       break;
 
     case '3':
-      eatGhost(ghost[2]);
+      eatGhost(ghosts[2]);
       lifeBelowZero();
+
+      if (ghosts[2].edible === true) {
+        score += 200;
+        ghosts[2].edible = false;
+      }
       break;
 
     case '4':
-      eatGhost(ghost[3]);
+      eatGhost(ghosts[3]);
       lifeBelowZero();
+
+      if (ghosts[3].edible === true) {
+        score += 200;
+        ghosts[3].edible = false;
+      }
       break;
 
     default:
@@ -181,5 +200,5 @@ stdin.on('data', function(key) {
 
 // Player Quits
 process.on('exit', function() {
-  console.log('\n\nGame Over!\n');
+  console.log('\n\nGAME OVER.\n');
 });
